@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit team {{ team.name }}{% endblock %}
+{% block content %}
+    <div class="px-6 py-6">
+        <h1 class="text-xl px-4 py-4">Edit team ({{ team.name }})</h1>
+    </div>
+
+    <form method="post" action=".">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button class="mt-3 py-4 px-8 text-white bg-teal-500 rounded-xl">Submit</button>
+    </form>
+{% endblock %}

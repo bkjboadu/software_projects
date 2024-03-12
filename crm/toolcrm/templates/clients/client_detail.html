@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ client.name }}{% endblock %}
+
+{% block content %} 
+    <div class="py-6 px-6">
+        <h1 class="mb-4 text-xl px-4 py-4 font-semibold"> {{ client.name }}</h1>
+        
+        <p class="font-semibold">Email</p>
+        <p class="mb-2"> {{ client.email }}</p>
+
+        {% if client.description %}
+            <p class="font-semibold">Descrition</p>
+            <p class="mb-2">{{ client.description }}</p>
+        {% endif %}
+
+        <hr class="my-4">
+        <a href='{% url 'clients:edit' client.id %}' class="py-6 px-4 bg-teal-500 text-white rounded-xl">Edit</a>
+
+        <a href='{% url 'clients:delete' client.id %}' class="py-6 px-4 bg-red-500 text-white rounded-xl">Delete</a>
+
+        <hr class="my-4">
+
+        <h2 class="py-6">Comment</h2>
+        <div class="space-y-4">
+            {% for comment in client.comments.all %}
+                
+                <div class="rounded-xl p-6 bg-gray-100 ">
+                    <p class="mb-2"><strong>{{ comment.created_by}}</strong>@{{ comment.created_at }}</p>
+                    {{ comment.content }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <form method="post" action="{% url 'clients:add_comments' client.id %}">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+            <button class="bg-blue-700 px-4 py-6 text-white rounded-xl">Submit</button>
+        </form>
+
+        <hr class="mt-3">
+        <p>Files</p>
+
+        <div class="space-y-4">
+            {% for file in client.files.all %}
+                <div class="p-6 bg-gray-100 rounded-xl">
+                    <p class="mb-2"><strong>{{ file.created_by }}</strong>@{{ file.created_at }}</p>
+
+                    <a href="{{ file.file.url }}">Download</a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <hr class="mt-3">
+        
+
+        <form method="post" enctype="multipart/form-data" action="{% url 'clients:add_files' client.id %}">
+            {% csrf_token %}
+
+            {{ fileform.as_p }}
+            <button class="mt-6 bg-blue-700 px-4 py-6 text-white rounded-xl">Submit</button>
+        </form>
+
+    </div>
+{% endblock %}
+

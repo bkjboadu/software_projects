@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Log In{% endblock %}
+
+{% block content %}
+    <div class="text-center">
+        <h1 class ='text-lg space-y-4'>Login</h1>
+
+        <form method="post" action="." class="space-y-4">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button class="py-4 px-8 text-white bg-teal-500 rounded-xl">Submit</button>
+        </form>
+    </div>
+{% endblock %}
